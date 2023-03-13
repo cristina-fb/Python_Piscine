@@ -1,0 +1,2 @@
+kata = (0, 4, 132.42222, 10000, 12345.67)
+print('module_' + '{:02}'.format(kata[0]) + ', ' + 'ex_' + '{:02}'.format(kata[1]) + ' : ' + '{:.2f}'.format(kata[2]) + ' ' + '{:.2E}'.format(kata[3]) + ' ' + '{:.2E}'.format(kata[4]))
