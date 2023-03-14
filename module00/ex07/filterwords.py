@@ -10,12 +10,7 @@ except:
 lst = s.split(" ")
 words = []
 for i in lst:
-    letters = 0
-    res = ''
-    for j in i:
-        if j.isalpha():
-            letters += 1
-            res += "".join(j)
-    if letters > num:
+    res = "".join(j for j in i if j.isalpha())
+    if len(res) > num:
         words.append(res)
 print(words)

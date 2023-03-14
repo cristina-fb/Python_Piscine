@@ -21,8 +21,27 @@ def print_details(recipe, name):
 def del_recipe(cookbook, recipe):
     del cookbook[recipe]
 
-def add_recipe(cookbook, name, ingredients, meal, prep_time):
-    cookbook[name] = {ingredients, meal, prep_time}
+def add_recipe(cookbook):
+    name = input("Enter a recipe name: >>\n")
+    ingredients = []
+    print("Enter ingredients: >>")
+    while True:
+        try:
+            ingredients.append(input())
+        except:
+            break
+    meal = input("Enter a meal type: >>\n")
+    try:
+        prep_time = input("Enter a preparation time: >>\n")
+    except:
+        print("Sorry, not a valid time")
+        return
+    recipe = {
+        'ingredients': ingredients,
+        'meal': meal,
+        'prep_time': prep_time
+    }
+    cookbook[name] = recipe
 
 sandwich = {
     'ingredients': ['ham', 'bread', 'cheese', 'tomato'],
@@ -49,19 +68,31 @@ cookbook = {
 print("Welcome to the Python Cookbook !")
 while 1:
     print_op()
-    op = input("Please select an option:\n>> ")
-    if op == 1:
-        add_recipe(cookbook, 'sandwich', ['ham', 'bread', 'cheese', 'tomato'], 'lunch', 10)
-    elif op == 2:
-        del_recipe(cookbook, 'sandwich')
-    elif op == 3:
-        name = input("Please enter a recipe name to get its details:\n>> ")
-        print_details(cookbook['sandwich'], 'sandwich')
-    elif op == 4:
+    try:
+        op = input("Please select an option:\n>> ")
+        n = int(op)
+    except:
+        print("Sorry, this option does not exist.\n")
+        continue
+    if n == 1:
+        add_recipe(cookbook)
+    elif n == 2:
+        try:
+            name = input("Please enter a recipe name to delete:\n>> ")
+            del_recipe(cookbook, name)
+        except:
+            print("Sorry, that recipe is not on the cookbook.\n")
+    elif n == 3:
+        try:
+            name = input("Please enter a recipe name to get its details:\n>> ")
+            print_details(cookbook[name], name)
+        except:
+            print("Sorry, that recipe is not on the cookbook.\n")
+    elif n == 4:
         print_names(cookbook)
-    elif op == 5:
+    elif n == 5:
         print("Cookbook closed. Goodbye !")
         sys.exit()
     else:
-        print("Sorry, this option does not exist.")
+        print("Sorry, this option does not exist.\n")
 
