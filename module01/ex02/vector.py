@@ -11,56 +11,84 @@ class Vector:
         return(str(self.values))
 
     def __repr__(self):
-        print(self)
+        return(str(self.values))
 
     def __add__(self, n):
         aux = copy.deepcopy(self)
-        if len(aux.values) == 1:
-            for i in range(len(aux.values[0])):
-                aux.values[0][i] += n
+        if isinstance(n, int) or isinstance(n, float):
+            if len(aux.values) == 1:
+                for i in range(len(aux.values[0])):
+                    aux.values[0][i] += n
+            else:
+                for i in aux.values:
+                    i[0] += n
+        elif isinstance(n, Vector) and self.shape == n.shape:
+            if len(aux.values) == 1:
+                for i in range(len(aux.values[0])):
+                    aux.values[0][i] += n.values[0][i]
+            else:
+                for i, j in zip(aux.values, n.values):
+                    i[0] += j[0]
         else:
-            for i in aux.values:
-                i[0] += n
+            print("ERROR!")
+            return None
         return aux
-    
-    # def __radd__(self, other):
-    #     aux = Vector(self.values)
-    #     if len(aux.values) == 1:
-    #         for i in range(len(aux.values[0])):
-    #             aux.values[0][i] += n
-    #     else:
-    #         for i in aux.values:
-    #             i[0] += n
-    #     return aux
 
     def __sub__(self, n):
         aux = copy.deepcopy(self)
-        if len(aux.values) == 1:
-            for i in range(len(aux.values[0])):
-                aux.values[0][i] -= n
+        if isinstance(n, int) or isinstance(n, float):
+            if len(aux.values) == 1:
+                for i in range(len(aux.values[0])):
+                    aux.values[0][i] -= n
+            else:
+                for i in aux.values:
+                    i[0] -= n
+        elif isinstance(n, Vector) and self.shape == n.shape:
+            if len(aux.values) == 1:
+                for i in range(len(aux.values[0])):
+                    aux.values[0][i] -= n.values[0][i]
+            else:
+                for i, j in zip(aux.values, n.values):
+                    i[0] -= j[0]
         else:
-            for i in aux.values:
-                i[0] -= n
+            print("ERROR!")
+            return None
         return aux
 
     def __mul__(self, n):
         aux = copy.deepcopy(self)
-        if len(aux.values) == 1:
-            for i in range(len(aux.values[0])):
-                aux.values[0][i] *= n
+        if isinstance(n, int) or isinstance(n, float):
+            if len(aux.values) == 1:
+                for i in range(len(aux.values[0])):
+                    aux.values[0][i] *= n
+            else:
+                for i in aux.values:
+                    i[0] *= n
         else:
-            for i in aux.values:
-                i[0] *= n
+            print("ERROR!")
+            return None
         return aux
 
     def __truediv__(self, n):
         aux = copy.deepcopy(self)
-        if len(aux.values) == 1:
-            for i in range(len(aux.values[0])):
-                aux.values[0][i] /= n
+        if isinstance(n, int) or isinstance(n, float):
+            if len(aux.values) == 1:
+                for i in range(len(aux.values[0])):
+                    try:
+                        aux.values[0][i] /= n
+                    except:
+                        print("ERROR!")
+                        return None
+            else:
+                for i in aux.values:
+                    try:
+                        i[0] /= n
+                    except:
+                        print("ERROR!")
+                        return None
         else:
-            for i in aux.values:
-                i[0] /= n
+            print("ERROR!")
+            return None
         return aux
 
     def T(self):
@@ -79,7 +107,7 @@ class Vector:
         return Vector(ret)
             
     def dot(self, a):
-        if type(a) != Vector:
+        if not isinstance(a, Vector):
             print("ERROR!")
             return None
         if self.shape != a.shape:
