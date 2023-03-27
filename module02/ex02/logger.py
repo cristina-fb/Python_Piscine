@@ -3,8 +3,10 @@ from random import randint
 import os
 
 #... your definition of log decorator...
-def log():
-
+def log(fun):
+    f = open("machine.log", "a+")
+    t = 0.001
+    f.write("(cmaxime)Running: " + '{:20}'.format(fun.__name__) + "[ exec-time = " + str(t) + " ms ]\n")
 
 class CoffeeMachine():
     water_level = 100
@@ -30,7 +32,7 @@ class CoffeeMachine():
             print(self.boil_water())
             print("Coffee is ready!")
 
-    @log
+    #@log
     def add_water(self, water_level):
         time.sleep(randint(1, 5))
         self.water_level += water_level
@@ -38,7 +40,7 @@ class CoffeeMachine():
 
 if __name__ == "__main__":
     machine = CoffeeMachine()
-    for i in range(0, 5):
-        machine.make_coffee()
-    machine.make_coffee()
+    # for i in range(0, 5):
+    #     machine.make_coffee()
+    # machine.make_coffee()
     machine.add_water(70)
