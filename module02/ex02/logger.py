@@ -2,15 +2,23 @@ import time
 from random import randint
 import os
 
-#... your definition of log decorator...
 def log(fun):
-    f = open("machine.log", "a+")
-    t = 0.001
-    f.write("(cmaxime)Running: " + '{:20}'.format(fun.__name__) + "[ exec-time = " + str(t) + " ms ]\n")
+    def decorator(*args):
+        f = open("machine.log", "a+")
+        begin = time.time()
+        a = fun(*args)
+        end = time.time()
+        t = end - begin
+        if t > 1.0:
+            f.write("(" + os.environ['USER'] + ")Running: " + '{:20}'.format(fun.__name__) + "[ exec-time = " + "{:.3f}".format(t) + " s ]\n")
+        else:
+            t = end*1000 - begin*1000
+            f.write("(" + os.environ['USER'] + ")Running: " + '{:20}'.format(fun.__name__) + "[ exec-time = " + "{:.3f}".format(t) + " ms ]\n")
+        return a
+    return decorator
 
 class CoffeeMachine():
     water_level = 100
-
     @log
     def start_machine(self):
         if self.water_level > 20:
@@ -32,7 +40,7 @@ class CoffeeMachine():
             print(self.boil_water())
             print("Coffee is ready!")
 
-    #@log
+    @log
     def add_water(self, water_level):
         time.sleep(randint(1, 5))
         self.water_level += water_level
@@ -40,7 +48,7 @@ class CoffeeMachine():
 
 if __name__ == "__main__":
     machine = CoffeeMachine()
-    # for i in range(0, 5):
-    #     machine.make_coffee()
-    # machine.make_coffee()
+    for i in range(0, 5):
+        machine.make_coffee()
+    machine.make_coffee()
     machine.add_water(70)
