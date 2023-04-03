@@ -1,5 +1,4 @@
 import math
-from statistics import quantiles
 class TinyStatistician():
     def mean(self, x):
         sum = 0
@@ -25,8 +24,7 @@ class TinyStatistician():
         if l == 0:
             return None
         x.sort()
-        # if l % 2 == 0:
-        # return [q1, q3]
+        return [x[math.ceil(l/4) - 1], x[math.ceil(l*3/4) - 1]]
 
     def var(self, x):
         l = len(x)
